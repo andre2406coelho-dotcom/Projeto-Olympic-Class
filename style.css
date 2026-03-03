@@ -1,0 +1,141 @@
+/* Layout geral */
+body {
+  margin: 0;
+  background: #0b0f1a;
+  color: #e8eefc;
+  font-family: system-ui, Arial, sans-serif;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 60vw 40vw;
+  height: 100vh;
+}
+
+/* Área da doca */
+.dock {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 30%, #141c2f, #070a12 60%, #04060b 100%);
+}
+
+/* Onde ficam os navios */
+.ships {
+  position: absolute;
+  inset: 0;
+}
+
+/* HITBOX (uma única versão!) */
+.ship-hitbox{
+  position: absolute;
+  left: 0;
+  width: 60%;
+  height: 22vh;
+  overflow: hidden;
+  transition: transform .25s ease, opacity .25s ease, filter .25s ease;
+}
+
+/* Posições (sem encostar hitbox na outra) */
+.ship-hitbox.olympic   { top: 17vh; z-index: 1; }
+.ship-hitbox.titanic   { top: 30vh; z-index: 2; }
+.ship-hitbox.britannic { top: 45vh; z-index: 3; }
+
+/* IMAGEM (uma única versão!) */
+.ship-img{
+  position: absolute;
+  left: var(--shift, 0px); /* offset fino por navio */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  width: auto;            /* mantém proporção */
+  pointer-events: none;
+  user-select: none;
+  filter: brightness(0.95);
+}
+
+/* Ajustes finos por navio (opcional) */
+.olympic .ship-img   { width: 165%; }
+.titanic .ship-img   { width: 160%; }
+.britannic .ship-img { width: 170%; }
+
+/* Efeito hover: só quando passar em algum navio */
+.dock:has(.ship-hitbox:hover) .ship-hitbox {
+  opacity: 0.25;
+  filter: blur(0.2px);
+}
+
+.ship-hitbox:hover {
+  opacity: 1 !important;
+  transform: scale(1.02);
+  filter: none;
+  z-index: 10;
+}
+
+/* Doca/chão */
+.pier {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18vh;
+  background: linear-gradient(#2b2b2b, #1a1a1a);
+  opacity: 0.65;
+}
+
+/* Painel de info */
+.info {
+  padding: 28px;
+  background: linear-gradient(
+  135deg,
+  #171717,
+  #060606
+);
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+
+.info h1 {
+  margin: 0 0 12px;
+  font-size: 28px;
+}
+
+.info p {
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.ship-hitbox.olympic   { --shift: -280px; }
+.ship-hitbox.titanic   { --shift: -250px; }
+.ship-hitbox.britannic { --shift: -250px; }
+
+/* Título do painel direito */
+#infoTitle{
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: 0.05em;
+  text-align: center;
+
+  /* Dourado elegante */
+  background: linear-gradient(
+    90deg,
+    #c6a74a,
+    #f5e6a3,
+    #b38b2e
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+/* Texto do painel direito */
+#infoText{
+  font-family: "Playfair Display", serif;
+  font-size: 17px;
+  line-height: 1.8;
+  text-align: center;        /* centraliza o texto */
+  max-width: 420px;          /* evita linha muito longa */
+  margin: 20px auto 0 auto;  /* centraliza horizontalmente */
+  opacity: 0.9;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Olympic Class Experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="layout">
+    <!-- ESQUERDA: doca + navios -->
+    <section class="dock" aria-label="Doca com os navios">
+      <div class="ships">
+
+        <!-- HITBOX 1 -->
+        <div
+          class="ship-hitbox olympic"
+          data-name="RMS Olympic"
+         data-sub="Apelidada de 'A Velha Confiável', a H.M.T. Olympic foi a primogênita da classe que mudaria a história da navegação. Testemunha de tempos turbulentos, serviu como transporte de tropas durante a Primeira Guerra Mundial e enfrentou colisões, acidentes e desafios que teriam encerrado a trajetória de qualquer outro navio. Ainda assim, resistiu. Diferentemente de seus irmãos, completou sua viagem inaugural e atravessou décadas de serviço até o fim de sua carreira. <br><br> H.M.T. Olympic — A Sobrevivente."
+        >
+          <img class="ship-img" src="Oly.png" alt="RMS Olympic (proa)" />
+        </div>
+
+        <!-- HITBOX 2 -->
+        <div
+          class="ship-hitbox titanic"
+          data-name="RMS Titanic"
+          data-sub="Símbolo de luxo, inovação e ambição, o RMS Titanic foi um transatlântico britânico da classe Olympic operado pela White Star Line. Sua história, porém, ficou eternamente marcada quando, em sua viagem inaugural, afundou na madrugada de 15 de abril de 1912, tornando-se um dos maiores desastres marítimos de todos os tempos. <br><br> R.M.S. Titanic — O Eterno."
+        >
+          <img class="ship-img" src="Titanic_.png" alt="RMS Titanic (proa)" />
+        </div>
+
+        <!-- HITBOX 3 -->
+        <div
+          class="ship-hitbox britannic"
+          data-name="HMHS Britannic"
+          data-sub="Maior e mais imponente da classe Olympic, o HMHS Britannic foi concebido para superar seus irmãos em luxo e segurança. No entanto, jamais serviu como navio de passageiros. Requisitado como navio-hospital durante a Primeira Guerra Mundial, encontrou seu destino no Mar Egeu em 21 de novembro de 1916. Seu naufrágio permanece envolto em debate: acidente com minas marítimas ou possível crime de guerra? <br><br> H.M.H.S. Britannic — O Enigma."
+        >
+          <img class="ship-img" src="HMHSBritannic.png" alt="HMHS Britannic (proa)" />
+        </div>
+
+      </div>
+
+      <!-- “Chão”/doca simples -->
+      <div class="pier"></div>
+    </section>
+
+    <!-- DIREITA: painel de info -->
+    <aside class="info" aria-label="Informações">
+      <h1 id="infoTitle">Olympic Class Experience</h1>
+      <p id="infoText">
+        Passe o mouse sobre um dos navios para ver um resumo.
+      </p>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
