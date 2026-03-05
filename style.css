@@ -424,3 +424,72 @@ body{
   .ship-hitbox{ transition: none; }
   .details-hero img{ transition: none; }
 }
+
+/* ===== MOBILE FIX (celular) ===== */
+@media (max-width: 700px){
+
+  /* HOME: vira 1 coluna */
+  .layout{
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 58vh auto;
+    height: 100vh;
+  }
+
+  .dock{
+    min-height: 58vh;
+  }
+
+  .info{
+    border-left: 0;
+    border-top: 1px solid var(--border-soft);
+    padding: 18px;
+  }
+
+  #infoTitle{ font-size: 28px; }
+  #infoText{ font-size: 15px; max-width: 92%; }
+
+  /* Navios: remove shifts negativos e centraliza no mobile */
+  .ship-hitbox{
+    width: 100% !important;
+    left: 0;
+    height: 16vh;
+  }
+
+  /* AQUI é o pulo do gato:
+     no celular, o shift em px quebra tudo.
+     então a imagem fica centralizada */
+  .ship-img{
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  /* Escalas mais “de boa” no mobile */
+  .olympic .ship-img   { width: 150%; }
+  .titanic .ship-img   { width: 145%; }
+  .britannic .ship-img { width: 155%; }
+
+  /* DETAILS: vira 1 coluna (imagem em cima, conteúdo embaixo) */
+  .details-body{
+    grid-template-columns: 1fr !important;
+    height: 100%;
+  }
+
+  .details-hero{
+    position: relative;
+    top: auto;
+    height: 38vh;      /* imagem ocupando topo */
+    border-right: 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  /* Conteúdo rola dentro dele (melhor UX no SPA) */
+  .details-content{
+    height: calc(100vh - (var(--details-header-h) + 38vh));
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .details-gallery{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
