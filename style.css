@@ -1,78 +1,101 @@
-/* Layout geral */
-body {
-  margin: 0;
-  background: #0b0f1a;
-  color: #e8eefc;
-  font-family: system-ui, Arial, sans-serif;
+:root{
+  --home-left: 60vw;
+  --home-right: 40vw;
+
+  --ship-hitbox-width: 60%;
+  --ship-hitbox-height: 22vh;
+
+  --details-header-h: 70px;
+  --details-left: 45vw;
+  --details-right: 55vw;
+
+  --bg: #0b0f1a;
+  --fg: #e8eefc;
+  --panel-bg-1: #171717;
+  --panel-bg-2: #060606;
+  --border-soft: rgba(255,255,255,0.08);
+
+  --dock-grad: radial-gradient(circle at 30% 30%, #141c2f, #070a12 60%, #04060b 100%);
+  --panel-grad: linear-gradient(135deg, var(--panel-bg-1), var(--panel-bg-2));
+  --gold-grad: linear-gradient(90deg, #c6a74a, #f5e6a3, #b38b2e);
+
+  --serif: "Playfair Display", serif;
+  --sans: system-ui, Arial, sans-serif;
 }
 
-.layout {
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+}
+
+.layout{
   display: grid;
-  grid-template-columns: 60vw 40vw;
+  grid-template-columns: var(--home-left) var(--home-right);
   height: 100vh;
 }
 
-/* Área da doca */
-.dock {
+.dock{
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 30% 30%, #141c2f, #070a12 60%, #04060b 100%);
+  background: var(--dock-grad);
 }
 
-/* Onde ficam os navios */
-.ships {
+.ships{
   position: absolute;
   inset: 0;
 }
 
-/* HITBOX (uma única versão!) */
 .ship-hitbox{
   position: absolute;
   left: 0;
-  width: 60%;
-  height: 22vh;
+  width: var(--ship-hitbox-width);
+  height: var(--ship-hitbox-height);
   overflow: hidden;
   transition: transform .25s ease, opacity .25s ease, filter .25s ease;
+  cursor: pointer;
 }
 
-/* Posições (sem encostar hitbox na outra) */
 .ship-hitbox.olympic   { top: 17vh; z-index: 1; }
 .ship-hitbox.titanic   { top: 30vh; z-index: 2; }
 .ship-hitbox.britannic { top: 45vh; z-index: 3; }
 
-/* IMAGEM (uma única versão!) */
 .ship-img{
   position: absolute;
-  left: var(--shift, 0px); /* offset fino por navio */
+  left: var(--shift, 0px);
   top: 50%;
   transform: translateY(-50%);
   height: 100%;
-  width: auto;            /* mantém proporção */
+  width: auto;
   pointer-events: none;
   user-select: none;
   filter: brightness(0.95);
 }
 
-/* Ajustes finos por navio (opcional) */
 .olympic .ship-img   { width: 165%; }
 .titanic .ship-img   { width: 160%; }
 .britannic .ship-img { width: 170%; }
 
-/* Efeito hover: só quando passar em algum navio */
-.dock:has(.ship-hitbox:hover) .ship-hitbox {
+.ship-hitbox.olympic   { --shift: -280px; }
+.ship-hitbox.titanic   { --shift: -250px; }
+.ship-hitbox.britannic { --shift: -250px; }
+
+.ships:hover .ship-hitbox{
   opacity: 0.25;
   filter: blur(0.2px);
 }
 
-.ship-hitbox:hover {
+.ships .ship-hitbox:hover{
   opacity: 1 !important;
   transform: scale(1.02);
   filter: none;
   z-index: 10;
 }
 
-/* Doca/chão */
-.pier {
+.pier{
   position: absolute;
   left: 0;
   right: 0;
@@ -82,60 +105,322 @@ body {
   opacity: 0.65;
 }
 
-/* Painel de info */
-.info {
+.info{
   padding: 28px;
-  background: linear-gradient(
-  135deg,
-  #171717,
-  #060606
-);
-  border-left: 1px solid rgba(255,255,255,0.08);
+  background: var(--panel-grad);
+  border-left: 1px solid var(--border-soft);
 }
 
-.info h1 {
+.info h1{
   margin: 0 0 12px;
   font-size: 28px;
 }
 
-.info p {
+.info p{
   margin: 0;
   line-height: 1.5;
   opacity: 0.9;
 }
 
-.ship-hitbox.olympic   { --shift: -280px; }
-.ship-hitbox.titanic   { --shift: -250px; }
-.ship-hitbox.britannic { --shift: -250px; }
-
-/* Título do painel direito */
 #infoTitle{
-  font-family: "Playfair Display", serif;
+  font-family: var(--serif);
   font-weight: 700;
   font-size: 34px;
   letter-spacing: 0.05em;
   text-align: center;
 
-  /* Dourado elegante */
-  background: linear-gradient(
-    90deg,
-    #c6a74a,
-    #f5e6a3,
-    #b38b2e
-  );
+  background: var(--gold-grad);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
   text-shadow: 0 2px 10px rgba(0,0,0,0.6);
 }
 
-/* Texto do painel direito */
 #infoText{
-  font-family: "Playfair Display", serif;
+  font-family: var(--serif);
   font-size: 17px;
   line-height: 1.8;
-  text-align: center;        /* centraliza o texto */
-  max-width: 420px;          /* evita linha muito longa */
-  margin: 20px auto 0 auto;  /* centraliza horizontalmente */
+  text-align: center;
+  max-width: 420px;
+  margin: 20px auto 0;
   opacity: 0.9;
+}
+
+.hint{
+  margin: 16px auto 0;
+  text-align: center;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.spa{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.spa-track{
+  width: 200vw;
+  height: 100%;
+  display: flex;
+  transition: transform .65s cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+
+.spa-page{
+  width: 100vw;
+  height: 100vh;
+  flex: 0 0 100vw;
+}
+
+.spa-track.is-details{
+  transform: translateX(-100vw);
+}
+
+.details-layout{
+  height: 100vh;
+  overflow: hidden;
+  background: var(--dock-grad);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+}
+
+.details-header{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--panel-grad);
+}
+
+.back-btn{
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: var(--fg);
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+
+.back-btn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.10);
+}
+
+.details-title{
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+
+  background: var(--gold-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.details-body{
+  flex: 1;
+  display: grid;
+  grid-template-columns: var(--details-left) var(--details-right);
+  height: 100%;
+}
+
+.details-hero{
+  position: sticky;
+  top: 0;
+  height: calc(100vh - var(--details-header-h));
+  overflow: hidden;
+  border-right: 1px solid var(--border-soft);
+  display: grid;
+  place-items: center;
+}
+
+.details-hero img{
+  width: 100%;
+  height: 110%;
+  object-fit: cover;
+  object-position: center 25%;
+  transform: translateY(0);
+  will-change: transform;
+  transition: transform 0.1s linear;
+  filter: contrast(1.02) brightness(0.9);
+}
+
+.details-content{
+  padding: 22px;
+  height: calc(100vh - (var(--details-header-h) + 40px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--panel-grad);
+  overscroll-behavior: contain;
+}
+
+.details-sub{
+  font-family: var(--serif);
+  line-height: 1.8;
+  opacity: 0.95;
+  margin: 0 0 18px;
+}
+
+.details-h2{
+  margin: 18px 0 10px;
+  font-size: 16px;
+  opacity: 0.9;
+  letter-spacing: 0.03em;
+}
+
+.details-list{
+  margin: 0 0 18px;
+  padding-left: 18px;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.details-gallery{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.details-gallery img{
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  opacity: 0.95;
+}
+
+@media (max-width: 900px){
+  .layout{ grid-template-columns: 1fr; }
+  .details-body{ grid-template-columns: 1fr; }
+  .details-gallery{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Telas muito grandes (TV / ultrawide): evita ficar esticado demais */
+@media (min-width: 1600px){
+  .layout{ grid-template-columns: 58vw 42vw; }
+  .details-body{ grid-template-columns: 42vw 58vw; }
+
+  .info{ padding: 40px; }
+  #infoTitle{ font-size: 40px; }
+  #infoText{ max-width: 520px; font-size: 18px; }
+}
+
+/* Desktop/notebook */
+
+@media (max-width: 1200px){
+  .layout{ grid-template-columns: 62vw 38vw; }
+  .details-body{ grid-template-columns: 46vw 54vw; }
+
+  #infoTitle{ font-size: 32px; }
+  #infoText{ font-size: 16px; }
+}
+
+/* Tablet (vertical/horizontal): HOME vira 1 coluna */
+@media (max-width: 900px){
+  .layout{
+    grid-template-columns: 1fr;
+    height: 100vh;
+  }
+
+  /* Dock ocupa mais espaço quando empilha */
+  .dock{
+    min-height: 58vh;
+  }
+
+  /* Painel abaixo */
+  .info{
+    min-height: 42vh;
+    border-left: 0;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  /* Ajusta hitbox para não ficar gigante no tablet */
+  .ship-hitbox{
+    width: 100%;
+    height: 18vh;
+  }
+
+  /* Shifts menores no tablet */
+  .ship-hitbox.olympic   { --shift: -220px; }
+  .ship-hitbox.titanic   { --shift: -200px; }
+  .ship-hitbox.britannic { --shift: -200px; }
+
+  .details-body{
+    grid-template-columns: 1fr;
+  }
+
+  .details-gallery{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Celular: HOME empilhado + detalhes viram scroll normal (imagem em cima) */
+@media (max-width: 600px){
+  .dock{
+    min-height: 56vh;
+  }
+
+  .ship-hitbox{
+    height: 16vh;
+  }
+
+  /* Diminui um pouco as imagens pra caber melhor */
+  .olympic .ship-img   { width: 150%; }
+  .titanic .ship-img   { width: 145%; }
+  .britannic .ship-img { width: 155%; }
+
+  /* Shifts ainda menores no celular */
+  .ship-hitbox.olympic   { --shift: -180px; }
+  .ship-hitbox.titanic   { --shift: -165px; }
+  .ship-hitbox.britannic { --shift: -165px; }
+
+  #infoTitle{ font-size: 28px; }
+  #infoText{ font-size: 15px; max-width: 92%; }
+
+  /* DETAILS no celular: melhor UX é scroll normal */
+  .details-layout{
+    height: auto;
+    overflow: visible;
+  }
+
+  .details-body{
+    height: auto;
+  }
+
+  .details-hero{
+    position: relative; /* tira sticky no mobile */
+    height: 38vh;       /* hero menor */
+    top: auto;
+  }
+
+  .details-hero img{
+    height: 120%;
+    object-position: center 30%;
+  }
+
+  .details-content{
+    height: auto;       /* deixa rolar a página */
+    overflow: visible;
+  }
+
+  .details-gallery{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .details-gallery img{
+    height: 120px;
+  }
+}
+
+/* Acessibilidade/UX: reduz animações se o usuário pedir */
+@media (prefers-reduced-motion: reduce){
+  .spa-track{ transition: none; }
+  .ship-hitbox{ transition: none; }
+  .details-hero img{ transition: none; }
 }
