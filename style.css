@@ -41,12 +41,16 @@ body{
 .dock{
   position: relative;
   overflow: hidden;
-  background: var(--dock-grad);
+
+  background-image: url("oceano.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .ships{
   position: absolute;
   inset: 0;
+  z-index: 3;
 }
 
 .ship-hitbox{
@@ -83,9 +87,19 @@ body{
 .ship-hitbox.titanic   { --shift: -250px; }
 .ship-hitbox.britannic { --shift: -250px; }
 
-.ships:hover .ship-hitbox{
-  opacity: 0.25;
-  filter: blur(0.2px);
+/* quando um navio está sendo hoverado, os outros escurecem */
+.dock:has(.ship-hitbox:hover) .ship-hitbox{
+  opacity: 0.45;
+  filter: blur(0.3px);
+  transition: opacity .25s ease, filter .25s ease;
+}
+
+/* o navio focado volta ao normal */
+.dock .ship-hitbox:hover{
+  opacity: 1 !important;
+  transform: scale(1.02);
+  filter: none;
+  z-index: 10;
 }
 
 .ships .ship-hitbox:hover{
@@ -103,6 +117,7 @@ body{
   height: 18vh;
   background: linear-gradient(#2b2b2b, #1a1a1a);
   opacity: 0.65;
+  z-index: 2;
 }
 
 .info{
@@ -224,35 +239,35 @@ body{
 
 .details-body{
   flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: var(--details-left) var(--details-right);
-  height: 100%;
 }
 
 .details-hero{
-  position: sticky;
-  top: 0;
-  height: calc(100vh - var(--details-header-h));
+  min-height: 0;
   overflow: hidden;
   border-right: 1px solid var(--border-soft);
   display: grid;
   place-items: center;
+  background: #000;
 }
 
 .details-hero img{
   width: 100%;
-  height: 110%;
+  height: 108%;
   object-fit: cover;
   object-position: center 25%;
   transform: translateY(0);
   will-change: transform;
   transition: transform 0.1s linear;
   filter: contrast(1.02) brightness(0.9);
+  display: block;
 }
 
 .details-content{
+  min-height: 0;
   padding: 22px;
-  height: calc(100vh - (var(--details-header-h) + 40px));
   overflow-y: auto;
   overflow-x: hidden;
   background: var(--panel-grad);
@@ -293,12 +308,6 @@ body{
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.10);
   opacity: 0.95;
-}
-
-@media (max-width: 900px){
-  .layout{ grid-template-columns: 1fr; }
-  .details-body{ grid-template-columns: 1fr; }
-  .details-gallery{ grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Telas muito grandes (TV / ultrawide): evita ficar esticado demais */
@@ -425,71 +434,243 @@ body{
   .details-hero img{ transition: none; }
 }
 
-/* ===== MOBILE FIX (celular) ===== */
+/* ===== MOBILE: navios empilhados (cards) ===== */
 @media (max-width: 700px){
 
-  /* HOME: vira 1 coluna */
+  /* HOME vira 1 coluna */
   .layout{
     grid-template-columns: 1fr !important;
-    grid-template-rows: 58vh auto;
-    height: 100vh;
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: 100vh;
   }
 
   .dock{
-    min-height: 58vh;
+    padding: 12px 0;
   }
 
+  /* navios deixam de ser absolute e viram lista vertical */
+  .ships{
+    position: static !important;
+    inset: auto !important;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  /* cada navio vira um "card" clicável */
+  .ship-hitbox{
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: 18vh;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(0,0,0,0.22);
+  }
+
+  /* centraliza a imagem dentro do card */
+  .ship-img{
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    height: 100%;
+    width: auto;
+  }
+
+  /* hover não existe no touch, então evita "apagão" */
+  .ships:hover .ship-hitbox{
+    opacity: 1;
+    filter: none;
+  }
+
+  /* some com o "chão" no mobile */
+  .pier{
+    display: none;
+  }
+
+  /* painel de info fica abaixo */
   .info{
     border-left: 0;
-    border-top: 1px solid var(--border-soft);
-    padding: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 18px 18px 26px;
   }
 
   #infoTitle{ font-size: 28px; }
   #infoText{ font-size: 15px; max-width: 92%; }
 
-  /* Navios: remove shifts negativos e centraliza no mobile */
-  .ship-hitbox{
-    width: 100% !important;
-    left: 0;
-    height: 16vh;
-  }
-
-  /* AQUI é o pulo do gato:
-     no celular, o shift em px quebra tudo.
-     então a imagem fica centralizada */
-  .ship-img{
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  /* Escalas mais “de boa” no mobile */
-  .olympic .ship-img   { width: 150%; }
-  .titanic .ship-img   { width: 145%; }
-  .britannic .ship-img { width: 155%; }
-
-  /* DETAILS: vira 1 coluna (imagem em cima, conteúdo embaixo) */
+  /* DETAILS mobile: 1 coluna (imagem em cima) */
   .details-body{
     grid-template-columns: 1fr !important;
-    height: 100%;
   }
 
   .details-hero{
     position: relative;
-    top: auto;
-    height: 38vh;      /* imagem ocupando topo */
+    height: 38vh;
     border-right: 0;
-    border-bottom: 1px solid var(--border-soft);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
-  /* Conteúdo rola dentro dele (melhor UX no SPA) */
+  /* conteúdo rola normalmente */
   .details-content{
-    height: calc(100vh - (var(--details-header-h) + 38vh));
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* botão voltar some no mobile (porque teremos swipe) */
+  .back-btn{
+    display: none;
   }
 
   .details-gallery{
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px){
+  .details-hero img{
+    transform: translateY(0) !important;
+  }
+}
+
+.lightbox{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 24px;
+}
+
+.lightbox.is-open{
+  display: flex;
+}
+
+.lightbox-content{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox img{
+  max-width: 92vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+}
+
+.lightbox-close{
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+.lightbox-nav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+.lightbox-prev{
+  left: 18px;
+}
+
+.lightbox-next{
+  right: 18px;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover{
+  background: rgba(255,255,255,0.16);
+}
+
+@media (max-width: 700px){
+  .lightbox{
+    padding: 12px;
+  }
+
+  .lightbox img{
+    max-width: 96vw;
+    max-height: 82vh;
+  }
+
+  .lightbox-nav{
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+  }
+
+  .lightbox-close{
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+}
+
+.water{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18vh;   /* continua começando acima da doca */
+  height: 85vh;   /* aumenta a altura da água */
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wave{
+  position: absolute;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 2px,
+    transparent 2px,
+    transparent 60px
+  );
+  animation: waveMove 18s linear infinite;
+}
+
+.wave2{
+  opacity: 0.4;
+  animation-duration: 30s;
+}
+
+@keyframes waveMove{
+  from{
+    transform: translateX(0);
+  }
+  to{
+    transform: translateX(50%);
   }
 }

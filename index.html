@@ -19,6 +19,7 @@
           <!-- ESQUERDA: doca + navios -->
           <section class="dock" aria-label="Doca com os navios">
             <div class="ships">
+             
 
               <div
                 class="ship-hitbox olympic"
@@ -49,17 +50,20 @@
 
             </div>
 
+             <div class="water">
+                <div class="wave wave1"></div>
+                <div class="wave wave2"></div>
+            </div>
+
             <div class="pier"></div>
           </section>
 
           <!-- DIREITA: painel de info -->
           <aside class="info" aria-label="Informações">
             <h1 id="infoTitle">Olympic Class Experience</h1>
-            <p id="infoText">
-              Passe o mouse sobre um dos navios para ver um resumo.
-            </p>
+            <p id="infoText"></p>
 
-            <p class="hint" id="hintText">Clique em um navio para abrir os detalhes ➜</p>
+            <p class="hint" id="hintText"></p>
           </aside>
         </main>
       </section>
@@ -92,6 +96,17 @@
 
     </div>
   </div>
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Fechar">✕</button>
+
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Imagem anterior">❮</button>
+
+  <div class="lightbox-content">
+    <img id="lightboxImg" src="" alt="Imagem ampliada" />
+  </div>
+
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Próxima imagem">❯</button>
+</div>
 
   <script src="script.js"></script>
 </body>
