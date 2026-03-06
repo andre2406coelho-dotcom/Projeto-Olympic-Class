@@ -101,10 +101,10 @@ Mais de um século depois, o Titanic continua sendo um dos navios mais famosos d
       "Titanic/Titanic1.png",
       "Titanic/Titanic5.avif",
       "Titanic/Titanic3.avif",
-      "Titanic/Titanic4.avif",
+      "Titanic/titanic4.avif",
       "Titanic/Titanic2.jpg",
       "Titanic/Titanic7.jpg",
-      "Titanic/Titanic8.png",
+      "Titanic/titanic8.png",
       "Titanic/Titanic9.png",
       "Titanic/Titanic0.jpg"
     ]
