@@ -674,3 +674,36 @@ body{
     transform: translateX(50%);
   }
 }
+
+@media (max-width: 700px){
+  .spa{
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .spa-track{
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: none !important;
+  }
+
+  .spa-page{
+    width: 100%;
+    height: auto;
+    flex: none;
+  }
+
+  #pageDetails{
+    display: none;
+  }
+
+  .spa-track.is-details #pageHome{
+    display: none;
+  }
+
+  .spa-track.is-details #pageDetails{
+    display: block;
+  }
+}
